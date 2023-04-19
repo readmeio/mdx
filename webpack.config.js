@@ -3,7 +3,7 @@ const { merge } = require('webpack-merge');
 
 const common = require('./webpack.common');
 
-const browserConfig = merge(common, {
+const shared = ({ target }) => ({
   entry: './index',
   externals: {
     '@readme/variable': '@readme/variable',
@@ -24,22 +24,17 @@ const browserConfig = merge(common, {
     },
   },
   output: {
-    library: {
-      type: 'umd',
-    },
+    libraryTarget: target === 'node' ? 'commonjs2' : undefined,
   },
   optimization: {
     minimize: false,
     minimizer: [new TerserPlugin()],
   },
   resolve: {},
+  target,
 });
 
-const serverConfig = merge(browserConfig, {
-  target: 'node',
-  output: {
-    filename: '[name].node.js',
-  },
-});
+const browserConfig = merge(common({ target: 'web' }), shared({ target: 'web' }));
+const serverConfig = merge(common({ target: 'node' }), shared({ target: 'node' }));
 
 module.exports = [browserConfig, serverConfig];

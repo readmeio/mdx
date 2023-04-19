@@ -7,7 +7,7 @@ const { merge } = require('webpack-merge');
 
 const common = require('./webpack.common');
 
-const config = merge(common, {
+const config = merge(common({ target: web }), {
   entry: {
     demo: './example/index.jsx',
   },

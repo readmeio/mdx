@@ -2,7 +2,7 @@
  */
 const ExtractCSS = require('mini-css-extract-plugin');
 
-module.exports = {
+module.exports = ({ target }) => ({
   plugins: [
     new ExtractCSS({
       filename: '[name].css',
@@ -22,7 +22,7 @@ module.exports = {
         exclude: /node_modules\/(?!@readme\/[\w-]+\/)/,
         use: {
           loader: 'babel-loader',
-          options: { extends: './.babelrc' },
+          options: { target },
         },
       },
       {
@@ -53,4 +53,4 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json', '.jsx', '.ts', '.tsx'],
   },
-};
+});
