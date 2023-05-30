@@ -1,7 +1,7 @@
 import { mdast } from '../../index';
 
 describe('Parse RDMD Callouts', () => {
-  it('renders an info callout', () => {
+  it.only('renders an info callout', () => {
     const text = `
 > ℹ️ Info Callout
 >

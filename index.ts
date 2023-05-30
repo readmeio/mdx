@@ -4,11 +4,16 @@ import * as runtime from 'react/jsx-runtime';
 import { remark } from 'remark';
 import remarkMdx, { Root } from 'remark-mdx';
 import { VFile } from 'vfile';
+import * as CustomParsers from './processor/parse';
 
 /* eslint-disable no-param-reassign */
 require('./styles/main.scss');
 
-const unimplemented = debug('mdx:unimplemented');
+const unimplemented = debug('rdmdx:unimplemented');
+
+export const processor = (opts = {}) => {
+  return MDX.createProcessor(opts).use(CustomParsers);
+};
 
 export const react = (text: string, opts = {}) => {
   const code = compile(text, opts);

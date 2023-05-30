@@ -1,8 +1,7 @@
-const browser = require('./jest.browser');
-const common = require('./jest.common');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
 
-const unit = {
-  ...common,
+const config = {
   collectCoverageFrom: ['**/*.{js,jsx}'],
   coveragePathIgnorePatterns: [
     '<rootDir>/coverage/',
@@ -24,13 +23,20 @@ const unit = {
       statements: 90,
     },
   },
-  displayName: 'unit',
+  moduleNameMapper: {
+    '.+\\.scss$': 'identity-obj-proxy',
+  },
+  modulePathIgnorePatterns: ['<rootDir>/__tests__/helpers'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jsdom',
-  testPathIgnorePatterns: ['/browser/'],
   testEnvironmentOptions: {
     url: 'http://localhost',
   },
+  transform: { '^.+\\.[jt]sx?$': ['babel-jest', { configFile: path.resolve(__dirname, '.babelrc') }] },
+  transformIgnorePatterns: [
+    // Since `@readme/variable` doesn't ship any transpiled code, we need to transform it as we're running tests.
+    '<rootDir>/node_modules/@readme/variable/^.+\\.jsx?$',
+  ],
 };
 
-module.exports = { projects: [unit, browser] };
+module.exports = config;
