@@ -1,11 +1,14 @@
-const [, , typeEnum] = require('@commitlint/config-angular').rules['type-enum'];
+//const [, , typeEnum] = require("@commitlint/config-angular").rules["type-enum"];
+import { rules } from "@commitlint/config-angular";
+
+const [, , typeEnum] = rules["type-enum"];
 
 module.exports = {
-  extends: ['@commitlint/config-angular'],
+  extends: ["@commitlint/config-angular"],
   rules: {
-    'header-max-length': [0, 'always', 106],
-    'type-enum': [2, 'always', [...typeEnum, 'chore', 'ref', 'add', 'enhance']],
-    'type-case': [1, 'always', ['lower-case', 'upper-case']],
-    'body-max-line-length': [0, 'always', 'Infinity'],
+    "header-max-length": [0, "always", 106],
+    "type-enum": [2, "always", [...typeEnum, "chore", "ref", "add", "enhance"]],
+    "type-case": [1, "always", ["lower-case", "upper-case"]],
+    "body-max-line-length": [0, "always", "Infinity"],
   },
 };
