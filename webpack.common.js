@@ -32,7 +32,6 @@ export const module = {
       use: [_loader, 'css-loader', 'sass-loader'],
     },
     {
-      // eslint-disable-next-line unicorn/no-unsafe-regex
       test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
       exclude: /(node_modules)/,
       use: {
@@ -46,6 +45,14 @@ export const module = {
       test: /\.(txt|md)$/i,
       type: 'asset/source',
     },
+    {
+      test: /\.m?js$/,
+      include: /node_modules/,
+      type: 'javascript/auto',
+      resolve: {
+        fullySpecified: false,
+      },
+    }
   ],
 };
 export const resolve = {

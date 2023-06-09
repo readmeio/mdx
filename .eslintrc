@@ -1,5 +1,12 @@
 {
-  "extends": ["@readme/eslint-config", "@readme/eslint-config/react", "@readme/eslint-config/typescript"],
+  // "extends": ["@readme/eslint-config", "@readme/eslint-config/react"],
   "parser": "@babel/eslint-parser",
-  "root": true
+  "root": true,
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  }
 }
