@@ -1,17 +1,38 @@
+import './styles/main.scss';
+
 import debug from "debug";
 import * as MDX from "@mdx-js/mdx";
-import * as runtime from "react/jsx-runtime";
+import * as runtime from "react/jsx-runtime.js";
 import { remark } from "remark";
 import remarkMdx from "remark-mdx";
 import { VFile } from "vfile";
-import * as CustomParsers from "./processor/parse/index";
+import * as BaseUrlContext from './contexts/BaseUrl.js';
+import * as CustomParsers from "./processor/parse/index.js";
 
-/* eslint-disable no-param-reassign */
-//require("./styles/main.scss");
+import * as Variable from '@readme/variable';
+import { GlossaryContext } from './components/GlossaryItem/index.jsx';
+import { getHref } from './components/Anchor.jsx';
+import { icons as calloutIcons } from './processor/parse/callouts.js';
 
 const unimplemented = debug("rdmdx:unimplemented");
 
+export const utils = {
+  get options() {
+    return { ...options };
+  },
+
+  BaseUrlContext,
+  getHref,
+  GlossaryContext,
+  VariablesContext: Variable.VariablesContext,
+  calloutIcons,
+};
+
 export const processor = (opts = {}) => {
+  return MDX.createProcessor(opts).use(CustomParsers);
+};
+
+export const reactProcessor = (opts = {}) => {
   return MDX.createProcessor(opts).use(CustomParsers);
 };
 
@@ -44,7 +65,7 @@ export const run = (code, opts = {}) => {
   }
 };
 
-export const reactToc = (text, opts = {}) => {
+export const reactTOC = (text, opts = {}) => {
   unimplemented("reactToc export");
 };
 

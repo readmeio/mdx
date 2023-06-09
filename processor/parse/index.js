@@ -1,1 +1,1 @@
-export { default as calloutParser } from "./callouts";
+export { default as calloutParser } from "./callouts.js";
