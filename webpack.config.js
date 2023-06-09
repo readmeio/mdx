@@ -1,7 +1,9 @@
 import TerserPlugin from 'terser-webpack-plugin';
 import { merge } from 'webpack-merge';
 
-const browserConfig = {
+import common from './webpack.common';
+
+const browserConfig = merge(common, {
   entry: './index.js',
   externals: {
     '@readme/variable': '@readme/variable',
@@ -33,7 +35,7 @@ const browserConfig = {
   resolve: {
     fallback: { path: require.resolve('path-browserify') },
   },
-};
+});
 
 const serverConfig = merge(browserConfig, {
   target: 'node',
