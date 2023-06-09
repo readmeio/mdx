@@ -1,7 +1,7 @@
 import TerserPlugin from 'terser-webpack-plugin';
 import { merge } from 'webpack-merge';
 
-import common from './webpack.common';
+import * as common from './webpack.common.js';
 
 const browserConfig = merge(common, {
   entry: './index.js',

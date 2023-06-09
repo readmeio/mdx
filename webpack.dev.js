@@ -1,19 +1,19 @@
 import { resolve as _resolve } from 'path';
 
-import pkg from 'webpack';
-import merge from 'webpack-merge';
+import webpack from 'webpack';
+import { merge } from 'webpack-merge';
 
-import common from './webpack.common';
+import * as common from './webpack.common.js';
 
 import { fileURLToPath } from 'url';
 import path from 'path';
 
-const { ProvidePlugin } = pkg;
+const { ProvidePlugin } = webpack;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const config = merge(module, {
+const config = merge(common, {
   entry: {
     demo: './example/index.jsx',
   },
