@@ -6,9 +6,6 @@ import remarkMdx from "remark-mdx";
 import { VFile } from "vfile";
 import * as CustomParsers from "./processor/parse/index";
 
-/* eslint-disable no-param-reassign */
-//require("./styles/main.scss");
-
 const unimplemented = debug("rdmdx:unimplemented");
 
 export const processor = (opts = {}) => {
