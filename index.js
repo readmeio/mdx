@@ -1,4 +1,4 @@
-// import './styles/main.scss';
+import './styles/main.scss';
 
 import debug from "debug";
 import * as MDX from "@mdx-js/mdx";

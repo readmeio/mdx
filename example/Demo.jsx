@@ -7,6 +7,8 @@ import Fixtures from './Fixtures';
 import Header from './Header';
 import Router from './Router';
 
+import './demo.scss';
+
 const { GlossaryContext } = utils;
 
 const terms = [
@@ -27,6 +29,7 @@ const terms = [
 const Maybe = ({ when, children }) => when && children;
 
 function DemoContent({ ci, children, fixture, name, onChange, opts }) {
+  const Body = markdown(fixture, opts);
   return (
     <React.Fragment>
       <Maybe when={!ci}>
@@ -43,7 +46,7 @@ function DemoContent({ ci, children, fixture, name, onChange, opts }) {
             <h2 className="rdmd-demo--markdown-header">{name}</h2>
           </Maybe>
           <div id="content-container">
-            <div className="markdown-body">{markdown(fixture, opts)}</div>
+            <div className="markdown-body"><Body /></div>
             <section className="content-toc">{reactTOC(reactProcessor().parse(fixture), opts)}</section>
           </div>
         </section>
