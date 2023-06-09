@@ -9,6 +9,21 @@ export const plugins = [
 export const module = {
   rules: [
     {
+      test: /node_modules\/.*(is-plain-obj|parse5)\/.*.js$/,
+      use: {
+        loader: 'babel-loader',
+        options: { extends: './.babelrc' },
+      },
+    },
+    {
+      test: /\.jsx?$/,
+      exclude: /node_modules\/(?!@readme\/[\w-]+\/)/,
+      use: {
+        loader: 'babel-loader',
+        options: { extends: './.babelrc' },
+      },
+    },
+    {
       test: /\.css$/,
       use: [_loader, 'css-loader'],
     },
