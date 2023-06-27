@@ -1,22 +1,29 @@
 import React from 'react';
+// @ts-ignore
 import debug from 'debug';
-import { remark } from 'remark';
+import remark from 'remark';
+// @ts-ignore
 import remarkMdx, { Root } from 'remark-mdx';
 import remarkParse from 'remark-parse';
+import rehypeSlug from 'rehype-slug';
+import remarkRehype from 'remark-rehype';
 
 import ErrorBoundary from './lib/ErrorBoundary';
 
 require('./styles/main.scss');
 
-const MDX = require('@mdx-js/mdx');
-const MDXRuntime = require('@mdx-js/runtime').default;
+// @ts-ignore
+import MDX from '@mdx-js/mdx';
+// @ts-ignore
+import * as MDXRuntime from '@mdx-js/runtime';
 
-const unified = require('unified');
-const Variable = require('@readme/variable');
-const Components = require('./components');
-const { getHref } = require('./components/Anchor');
-const BaseUrlContext = require('./contexts/BaseUrl');
-const { options } = require('./options');
+import unified from 'unified';
+// @ts-ignore
+import Variable from '@readme/variable';
+import * as Components from './components';
+import { getHref } from './components/Anchor';
+import BaseUrlContext from './contexts/BaseUrl';
+import { options } from './options';
 const calloutTransformer = require('./processor/transform/callouts').default;
 
 const unimplemented = debug('mdx:unimplemented');
@@ -41,13 +48,17 @@ export const reactProcessor = (opts = {}) => {
   return MDX.createCompiler(opts);
 };
 
+export const processor = (opts = {}) => {
+  return unified().use(remarkParse).use(calloutTransformer);
+};
+
 export const react = (text: string, opts = {}) => {
-  const Mdx = <MDXRuntime components={{'rdme-callout': Components.Callout}} remarkPlugins={[calloutTransformer]}>{text}</MDXRuntime>
-  return (
-   <ErrorBoundary key={text}>
-      {Mdx}
-   </ErrorBoundary>
-  )
+  const Mdx = (
+    <MDXRuntime components={{ 'rdme-callout': Components.Callout }} remarkPlugins={[calloutTransformer]}>
+      {text}
+    </MDXRuntime>
+  );
+  return <ErrorBoundary key={text}>{Mdx}</ErrorBoundary>;
 };
 
 export const reactTOC = (text: string, opts = {}) => {
@@ -63,18 +74,25 @@ export const html = (text: string, opts = {}) => {
 };
 
 export const mdast = (text: string, opts = {}) => {
-  const processor = unified().use(remarkParse).use(calloutTransformer);
+  const proc = processor(opts);
 
   try {
-    const tree = processor.parse(text);
-    return processor.runSync(tree);
+    const tree = proc.parse(text);
+    return proc.runSync(tree);
   } catch (e) {
     return { type: 'root', children: [] };
   }
 };
 
 export const hast = (text: string, opts = {}) => {
-  unimplemented('hast export');
+  const proc = processor(opts).use(remarkRehype).use(rehypeSlug);
+
+  try {
+    const tree = proc.parse(text);
+    return proc.runSync(tree);
+  } catch (e) {
+    return { type: 'root', children: [] };
+  }
 };
 
 export const esast = (text: string, opts = {}) => {

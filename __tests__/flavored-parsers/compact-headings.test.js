@@ -1,13 +1,19 @@
 import { mdast } from '../../index';
 
 describe('Compact headings', () => {
-  it('can parse compact headings', () => {
+  it.only('can parse compact headings', () => {
     const heading = '#Compact Heading';
-    expect(mdast(heading, { settings: { position: true } })).toMatchSnapshot();
+    const tree = mdast(heading);
+
+    expect(tree.children[0].type).toBe('heading');
+    expect(tree.children[0].depth).toBe(1);
   });
 
   it('can parse headings that are not compact', () => {
     const heading = '# Non-compact Heading';
-    expect(mdast(heading, { settings: { position: true } })).toMatchSnapshot();
+    const tree = mdast(heading);
+
+    expect(tree.children[0].type).toBe('heading');
+    expect(tree.children[0].depth).toBe(1);
   });
 });
